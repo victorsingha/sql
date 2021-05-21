@@ -28,4 +28,7 @@
 
 --select * from employee_payroll where start between cast('2019-01-01' as date) and GETDATE();
 
-alter table employee_payroll add gender char(1);
+--alter table employee_payroll add gender char(1);
+
+update employee_payroll set gender = 'M' where name = 'Billi' or name = 'Mark';
+
