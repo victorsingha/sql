@@ -30,5 +30,7 @@
 
 --alter table employee_payroll add gender char(1);
 
-update employee_payroll set gender = 'M' where name = 'Billi' or name = 'Mark';
+--update employee_payroll set gender = 'M' where name = 'Billi' or name = 'Mark';
+
+select sum(salary) from employee_payroll where gender = 'M' group by gender;
 
