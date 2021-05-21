@@ -14,8 +14,9 @@
 --start date not null
 --);
 
-insert into employee_payroll values
-('Billi',100000.0,'2018-03-21'),
-('Terisa',200000.0,'2019-04-16'),
-('Johnathan',300000.0,'2021-01-20');
+--insert into employee_payroll values
+--('Billi',100000.0,'2018-03-21'),
+--('Terisa',200000.0,'2019-04-16'),
+--('Johnathan',300000.0,'2021-01-20');
 
+select * from employee_payroll;
