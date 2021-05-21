@@ -22,7 +22,7 @@
 --insert into employee_payroll(salary,start,name) values
 --(100000.0,'2018-03-21','Mark');
 
---select * from employee_payroll;
+select * from employee_payroll;
 
 --select salary from employee_payroll where name='johnathan';
 
@@ -31,6 +31,10 @@
 --alter table employee_payroll add gender char(1);
 
 --update employee_payroll set gender = 'M' where name = 'Billi' or name = 'Mark';
+
+--update employee_payroll set gender = 'F' where name = 'Terisa';
+
+--update employee_payroll set gender = 'M' where name = 'Johnathan';
 
 select sum(salary) from employee_payroll where gender = 'M' group by gender;
 
