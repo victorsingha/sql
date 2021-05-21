@@ -20,10 +20,28 @@ Email varchar(50) not null
 )
 
 insert into contacts values
-('amar','dsuja','606-3727 Ullamcorper. Street','mumbai','maharastra','766584','7654635245','amar@gmail.com'),
-('iris','watson','San Antonio MI 47096','mumbai','maharastra','633564','8576456736','iris@techz.co.in'),
-('kyla','waslen','Ap #651-8679 Sodales Av.','mumbai','maharastra','876554','9877687745','kyla@yahoo.com')
+('awek','jatt','606-3727 Ullamcorper. Street','pune','maharastra','766584','7654635245','amar@gmail.com'),
+('masw','waill','San Antonio MI 47096','pune','maharastra','633564','8576456736','iris@techz.co.in'),
+('tazo','ldusla','Ap #651-8679 Sodales Av.','pune','maharastra','876554','9877687745','kyla@yahoo.com')
 
 select * from contacts
 
 update contacts set PhoneNumber = '3222344456' where Firstname = 'amar'
+
+delete from contacts where Firstname = 'amar'
+
+select * from contacts where City = 'pune'
+
+select count(Firstname) from contacts where City = 'pune'
+
+select * from contacts order by Firstname
+
+alter table contacts add type varchar(50)
+
+update contacts set type = 'family'
+
+update contacts set type = 'friends' where City = 'mumbai'
+
+select count(Firstname) from contacts where type = 'friends'
+
+
