@@ -24,4 +24,6 @@
 
 --select * from employee_payroll;
 
-select salary from employee_payroll where name='johnathan';
+--select salary from employee_payroll where name='johnathan';
+
+select * from employee_payroll where start between cast('2019-01-01' as date) and GETDATE();
