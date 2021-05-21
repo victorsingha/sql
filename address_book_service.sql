@@ -25,3 +25,5 @@ insert into contacts values
 ('kyla','waslen','Ap #651-8679 Sodales Av.','mumbai','maharastra','876554','9877687745','kyla@yahoo.com')
 
 select * from contacts
+
+update contacts set PhoneNumber = '3222344456' where Firstname = 'amar'
