@@ -19,7 +19,9 @@
 --('Terisa',200000.0,'2019-04-16'),
 --('Johnathan',300000.0,'2021-01-20');
 
-insert into employee_payroll(salary,start,name) values
-(100000.0,'2018-03-21','Mark');
+--insert into employee_payroll(salary,start,name) values
+--(100000.0,'2018-03-21','Mark');
 
-select * from employee_payroll;
+--select * from employee_payroll;
+
+select salary from employee_payroll where name='johnathan';
