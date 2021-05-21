@@ -1,5 +1,5 @@
--- create database payroll_service
+create database payroll_service
 
--- select * from sys.databases;
+select * from sys.databases;
 
--- use payroll_service
+use payroll_service
