@@ -36,5 +36,6 @@ update employee_payroll set gender = 'F' where name = 'Terisa';
 
 update employee_payroll set gender = 'M' where name = 'Johnathan';
 
-select sum(salary) from employee_payroll where gender = 'M' group by gender;
+select sum(salary) from employee_payroll where gender = 'M';
 
+select avg(salary), gender from employee_payroll group by gender;
