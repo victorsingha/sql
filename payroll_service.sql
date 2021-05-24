@@ -46,6 +46,8 @@ alter table employee_payroll add phone varchar(15)
 
 alter table employee_payroll add address varchar(250)
 
-alter table employee_payroll add department varchar(250)
+alter table employee_payroll add department varchar(250) not null default 'IT'
+
+
  
 
