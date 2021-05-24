@@ -48,6 +48,4 @@ alter table employee_payroll add address varchar(250)
 
 alter table employee_payroll add department varchar(250) not null default 'IT'
 
-
- 
-
+sp_rename 'employee_payroll.salary','basic_pay'
