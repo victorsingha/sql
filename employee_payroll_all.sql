@@ -17,3 +17,8 @@ StartDate Date,
 City varchar(100),
 Country varchar(100),
 )
+
+insert into employee_payroll_all values
+('John','6657483510','#435 street 21','IT','M',300000,2000,1000,10000,298000,'2020-04-20','Bangalore','India')
+
+select * from employee_payroll_all
