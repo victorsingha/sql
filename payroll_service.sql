@@ -39,3 +39,13 @@ update employee_payroll set gender = 'M' where name = 'Johnathan';
 select sum(salary) from employee_payroll where gender = 'M';
 
 select avg(salary), gender from employee_payroll group by gender;
+
+alter table employee_payroll add phone varchar(15)
+
+alter table employee_payroll add phone varchar(15)
+
+alter table employee_payroll add address varchar(250)
+
+alter table employee_payroll add department varchar(250)
+ 
+
