@@ -58,3 +58,6 @@ net_pay float
 
 update employee_payroll set department = 'Sales' where name = 'Terisa'
 
+insert into employee_payroll values
+('Terisa',200000.0,'2019-04-16','F','4234345345','#34 street','Marketing',2000,198000,10000,188000)
+
