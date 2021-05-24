@@ -56,3 +56,5 @@ taxable_pay float,
 tax float,
 net_pay float
 
+update employee_payroll set department = 'Sales' where name = 'Terisa'
+
