@@ -19,6 +19,24 @@ Country varchar(100),
 )
 
 insert into employee_payroll_all values
-('John','6657483510','#435 street 21','IT','M',300000,2000,1000,10000,298000,'2020-04-20','Bangalore','India')
+('Teresa','6657483510','#333 street 11','Marketing','F',400000,2000,1000,10000,398000,'2020-04-20','Bangalore','India')
+
+select * from employee_payroll_all
+
+create table department
+(
+DepartmentName varchar(200),
+EmployeeID int
+)
+
+insert into department values
+('IT',1),
+('IT',2),
+('Sales',3),
+('Marketing',3)
+
+select * from department
+
+alter table department drop column DepartmentID
 
 select * from employee_payroll_all
