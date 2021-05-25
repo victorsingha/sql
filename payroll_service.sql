@@ -22,7 +22,6 @@ insert into employee_payroll values
 insert into employee_payroll(salary,start,name) values
 (100000.0,'2018-03-21','Mark');
 
-select * from employee_payroll;
 
 select salary from employee_payroll where name='johnathan';
 
@@ -59,5 +58,6 @@ net_pay float
 update employee_payroll set department = 'Sales' where name = 'Terisa'
 
 insert into employee_payroll values
-('Terisa',200000.0,'2019-04-16','F','4234345345','#34 street','Marketing',2000,198000,10000,188000)
+('Adam',300000.0,'2020-04-16','F','4234345345','#34 street','Marketing',3000,28000,20000,178000)
 
+select * from employee_payroll;
