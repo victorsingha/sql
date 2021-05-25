@@ -29,13 +29,27 @@ DepartmentName varchar(200),
 EmployeeID int
 )
 
+create table phone
+(
+Phone varchar(20),
+EmployeeID int
+)
+
 insert into department values
 ('IT',1),
 ('IT',2),
 ('Sales',3),
 ('Marketing',3)
 
+insert into phone values
+('7564446664',1),
+('8967584758',1),
+('9968785747',1),
+('7766577456',2),
+('4536453645',3)
+
 select * from department
+select * from phone
 
 alter table department drop column DepartmentID
 
