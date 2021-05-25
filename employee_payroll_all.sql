@@ -23,37 +23,38 @@ insert into employee_payroll_all values
 
 select * from employee_payroll_all
 
-create table department
-(
-DepartmentName varchar(200),
-EmployeeID int
-)
+CREATE TABLE department (
+    departmentID int identity(1,1) primary key,
+    departmentName varchar(200)
+);
+
+CREATE TABLE empID_depID (
+    empID int,
+    departmentID int,
+    FOREIGN KEY (empID) REFERENCES employee_payroll_all(EmployeeID),
+	FOREIGN KEY (departmentID) REFERENCES department(departmentID)
+);
 
 ALTER TABLE employee_payroll_all
 DROP COLUMN PhoneNumber;
 
-create table phone
-(
-Phone varchar(20),
-EmployeeID int
-)
-
 insert into department values
-('IT',1),
-('IT',2),
-('Sales',3),
-('Marketing',3)
+('IT'),
+('Sales'),
+('Marketing'),
+('HR')
 
-insert into phone values
-('7564446664',1),
-('8967584758',1),
-('9968785747',1),
-('7766577456',2),
-('4536453645',3)
+insert into empID_depID values
+(1,1),
+(2,4),
+(3,2),
+(3,3)
 
 select * from department
-select * from phone
+select * from empID_depID
+select * from employee_payroll_all
+
+drop table phone
 
 alter table department drop column DepartmentID
 
-select * from employee_payroll_all
