@@ -61,3 +61,4 @@ insert into employee_payroll values
 ('Adam',300000.0,'2020-04-16','F','4234345345','#34 street','Marketing',3000,28000,20000,178000)
 
 select * from employee_payroll;
+
