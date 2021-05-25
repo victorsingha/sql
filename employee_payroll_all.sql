@@ -29,6 +29,9 @@ DepartmentName varchar(200),
 EmployeeID int
 )
 
+ALTER TABLE employee_payroll_all
+DROP COLUMN PhoneNumber;
+
 create table phone
 (
 Phone varchar(20),
