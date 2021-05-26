@@ -74,3 +74,6 @@ insert into salary values
 
 select * from salary
 
+ALTER TABLE employee_payroll_all
+DROP COLUMN BasicPay,Deductions,TaxablePay,Tax,NetPay;
+
