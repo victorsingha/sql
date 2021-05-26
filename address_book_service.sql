@@ -44,4 +44,16 @@ update contacts set type = 'friends' where City = 'mumbai'
 
 select count(Firstname) from contacts where type = 'friends'
 
+create table phone_number
+(
+contactID int,
+phoneNumber varchar(20),
+FOREIGN KEY (contactID) REFERENCES contacts(id)
+)
 
+create table type
+(
+contactID int,
+type varchar(20),
+FOREIGN KEY (contactID) REFERENCES contacts(id)
+)
