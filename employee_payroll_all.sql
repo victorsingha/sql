@@ -54,7 +54,23 @@ select * from department
 select * from empID_depID
 select * from employee_payroll_all
 
-drop table phone
+drop table salary
 
 alter table department drop column DepartmentID
+
+create table salary
+(
+empID int,
+BasicPay float,
+Deductions float,
+TaxablePay float,
+Tax float,
+NetPay float,
+ FOREIGN KEY (empID) REFERENCES employee_payroll_all(EmployeeID)
+)
+
+insert into salary values
+(1, 500000,3000,6000,4324,450000)
+
+select * from salary
 
