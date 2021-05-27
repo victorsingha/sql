@@ -24,7 +24,7 @@ insert into contacts values
 ('masw','waill','San Antonio MI 47096','pune','maharastra','633564','8576456736','iris@techz.co.in'),
 ('tazo','ldusla','Ap #651-8679 Sodales Av.','pune','maharastra','876554','9877687745','kyla@yahoo.com')
 
-select * from contacts
+
 
 update contacts set PhoneNumber = '3222344456' where Firstname = 'amar'
 
@@ -57,3 +57,16 @@ contactID int,
 type varchar(20),
 FOREIGN KEY (contactID) REFERENCES contacts(id)
 )
+
+select * from contacts
+
+UPDATE contacts 
+   SET Firstname = 'iris', 
+       Lastname = 'lr',
+	   Address = '#4324 sterer',
+	   City = 'pune',
+	   State = 'maharastra',
+	   Zip = '433243',
+	   PhoneNumber = '4343223344',
+	   Email = 'iriz@nono.inm'
+ WHERE Firstname = 'wannnn'
