@@ -62,3 +62,9 @@ insert into employee_payroll values
 
 select * from employee_payroll;
 
+SELECT SUM(basic_pay) FROM employee_payroll;
+SELECT AVG(basic_pay) FROM employee_payroll;
+SELECT COUNT(basic_pay) FROM employee_payroll;
+
+select name from employee_payroll where start between cast('2019-01-01' as date) and GETDATE();
+
