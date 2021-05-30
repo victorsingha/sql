@@ -60,11 +60,34 @@ update employee_payroll set department = 'Sales' where name = 'Terisa'
 insert into employee_payroll values
 ('Adam',300000.0,'2020-04-16','F','4234345345','#34 street','Marketing',3000,28000,20000,178000)
 
-select * from employee_payroll;
+
 
 SELECT SUM(basic_pay) FROM employee_payroll;
 SELECT AVG(basic_pay) FROM employee_payroll;
 SELECT COUNT(basic_pay) FROM employee_payroll;
 
 select name from employee_payroll where start between cast('2019-01-01' as date) and GETDATE();
+
+create table basic_pay
+(
+empID int,
+BasicPay float,
+Deductions float,
+TaxablePay float,
+Tax float,
+NetPay float,
+ FOREIGN KEY (empID) REFERENCES employee_payroll(id) ON DELETE CASCADE
+)
+
+select * from employee_payroll;
+
+insert into employee_payroll(name,basic_pay,start,gender) values
+('Victor',300000.0,'2020-04-16','F')
+
+select * from basic_pay;
+
+insert into basic_pay(empID,BasicPay,Deductions,TaxablePay,Tax,NetPay) values
+(1,46645,35435,354,666,5435)
+
+drop table basic_pay
 
