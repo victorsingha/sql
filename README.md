@@ -5,6 +5,10 @@
 ### `address_book`
 ![er-dr](https://raw.githubusercontent.com/victorsingha/sql/main/img/address_book_er.JPG)
 
+## EXTRA SPACES
+```sql
+Select REPLACE(COLUMN_WITH_EXTRA_SPACES, NCHAR(160), ' ')
+```
 
 ## FUNCTIONS DEPENDS IN SP
 ```sql
