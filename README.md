@@ -1,3 +1,22 @@
+## TABLES & SIZE
+```sql
+SELECT 
+    s.name AS SchemaName,
+    t.name AS TableName,
+    p.rows AS RowCounts,
+    CAST(ROUND((SUM(a.total_pages) * 8.0) / 1024, 2) AS DECIMAL(18,2)) AS TotalSizeMB,
+    CAST(ROUND((SUM(a.used_pages) * 8.0) / 1024, 2) AS DECIMAL(18,2)) AS UsedSizeMB,
+    CAST(ROUND((SUM(a.data_pages) * 8.0) / 1024, 2) AS DECIMAL(18,2)) AS DataSizeMB
+FROM sys.tables t
+JOIN sys.schemas s ON t.schema_id = s.schema_id
+JOIN sys.indexes i ON t.object_id = i.object_id
+JOIN sys.partitions p ON i.object_id = p.object_id AND i.index_id = p.index_id
+JOIN sys.allocation_units a ON p.partition_id = a.container_id
+WHERE s.name = 'hangfire'  -- replace with your schema name
+GROUP BY s.name, t.name, p.rows
+ORDER BY TotalSizeMB DESC;
+```
+
 ## EXTRA SPACES
 ```sql
 Select REPLACE(COLUMN_WITH_EXTRA_SPACES, NCHAR(160), ' ')
