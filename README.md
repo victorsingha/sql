@@ -1,3 +1,13 @@
+## TABLES USED IN SP
+```sql
+SELECT DISTINCT OBJECT_NAME(referencing_id) AS ProcedureName,o.name AS ReferencedTable,s.name AS SchemaName
+FROM sys.sql_expression_dependencies d
+JOIN sys.objects o ON d.referenced_id = o.object_id
+JOIN sys.schemas s ON o.schema_id = s.schema_id
+WHERE OBJECT_NAME(referencing_id) = 'YOUR_SP_NAME'
+AND o.type = 'U'; -- U = User tables
+```
+
 ## TABLES & SIZE
 ```sql
 SELECT 
