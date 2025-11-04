@@ -18,15 +18,18 @@ INSERT INTO OPENROWSET('Microsoft.ACE.OLEDB.12.0',
 SELECT TOP 10 * FROM YourTable;
 ```
 
-## Export Excel
+## Export Excel (Powershell)
 ```powershell
 Install-Module -Name ImportExcel -Force -Scope AllUsers
 ```
 ```sql
-DECLARE @BCPCommand NVARCHAR(2000);
-SET @BCPCommand = 
-'powershell -Command "Import-Module ImportExcel; $data = Invoke-Sqlcmd -ServerInstance ''192.0.0.0'' -Database ''DBNAME'' -Query ''SET NOCOUNT ON; EXEC DBNAME.dbo.SPME_TEST ''''1111''''''; $data | Export-Excel -Path ''D:\Reports\File.xlsx'' -WorksheetName ''Report'' -AutoSize -BoldTopRow -FreezeTopRow"';
-EXEC xp_cmdshell @BCPCommand;
+DECLARE @PowershellCommand NVARCHAR(2000);
+SET @PowershellCommand = 
+'powershell -Command "Import-Module ImportExcel; $data = Invoke-Sqlcmd -ServerInstance ''192.168.0.32'' -Database ''ToshfaBoubyan'' -Query ''SET NOCOUNT ON; EXEC ToshfaBoubyan.dbo.SPME_TEST ''''1111''''''; $data | Export-Excel -Path ''D:\Reports\File.xlsx'' -WorksheetName ''Sheet1'' -AutoSize -BoldTopRow -FreezeTopRow"';
+EXEC xp_cmdshell @PowershellCommand,NO_OUTPUT;
+
+EXEC xp_cmdshell 'powershell -Command "Import-Module ImportExcel; $path = ''D:\Reports\File.xlsx''; $data = Import-Excel $path; $data | Select-Object * -ExcludeProperty RowError,RowState,Table,ItemArray,HasErrors | Export-Excel -Path $path -WorksheetName Sheet1 -ClearSheet"';
+
 ```
 
 ## TABLES USED IN SP
