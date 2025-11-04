@@ -24,9 +24,9 @@ EXEC master.dbo.sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0', N'DynamicParame
 
 
 INSERT INTO OPENROWSET('Microsoft.ACE.OLEDB.12.0',
-'Excel 12.0;Database=C:\YourFile.xlsx;',
-'SELECT * FROM [Sheet1$]')
-SELECT TOP 10 * FROM YourTable;
+'Excel 12.0;Database=D:\Reports\File.xlsx;',
+'SELECT QuotationNo,QuotationType FROM [Sheet1$]')
+Select top 10 QuotationNo,QuotationType from tblQuotaMaster
 ```
 
 ## Export Excel (Powershell)
