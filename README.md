@@ -19,6 +19,10 @@ RECONFIGURE;
 EXEC sp_configure 'Ad Hoc Distributed Queries', 1;
 RECONFIGURE;
 
+EXEC master.dbo.sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0', N'AllowInProcess', 1;
+EXEC master.dbo.sp_MSset_oledb_prop N'Microsoft.ACE.OLEDB.12.0', N'DynamicParameters', 1;
+
+
 INSERT INTO OPENROWSET('Microsoft.ACE.OLEDB.12.0',
 'Excel 12.0;Database=C:\YourFile.xlsx;',
 'SELECT * FROM [Sheet1$]')
