@@ -24,12 +24,8 @@ Install-Module -Name ImportExcel -Force -Scope AllUsers
 ```
 ```sql
 DECLARE @PowershellCommand NVARCHAR(2000);
-SET @PowershellCommand = 
-'powershell -Command "Import-Module ImportExcel; $data = Invoke-Sqlcmd -ServerInstance ''192.168.0.32'' -Database ''ToshfaBoubyan'' -Query ''SET NOCOUNT ON; EXEC ToshfaBoubyan.dbo.SPME_TEST ''''1111''''''; $data | Export-Excel -Path ''D:\Reports\File.xlsx'' -WorksheetName ''Sheet1'' -AutoSize -BoldTopRow -FreezeTopRow"';
+SET @PowershellCommand='powershell -Command "Import-Module ImportExcel; $data = Invoke-Sqlcmd -ServerInstance ''192.168.0.32'' -Database ''ToshfaBoubyan'' -Query ''SET NOCOUNT ON; '+@Query+'; $data | Select-Object * -ExcludeProperty RowError,RowState,Table,ItemArray,HasErrors | Export-Excel -Path ''D:\Reports\'+@FileNameWithExtension+''' -WorksheetName ''Sheet1'' "';
 EXEC xp_cmdshell @PowershellCommand,NO_OUTPUT;
-
-EXEC xp_cmdshell 'powershell -Command "Import-Module ImportExcel; $path = ''D:\Reports\File.xlsx''; $data = Import-Excel $path; $data | Select-Object * -ExcludeProperty RowError,RowState,Table,ItemArray,HasErrors | Export-Excel -Path $path -WorksheetName Sheet1 -ClearSheet"';
-
 ```
 
 ## TABLES USED IN SP
