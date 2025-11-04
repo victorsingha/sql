@@ -12,6 +12,13 @@ EXEC xp_cmdshell @BCPCommand, NO_OUTPUT;
 ## Export Excel
 #### https://www.microsoft.com/en-us/download/details.aspx?id=54920
 ```sql
+SELECT @@VERSION;
+
+EXEC sp_configure 'show advanced options', 1;
+RECONFIGURE;
+EXEC sp_configure 'Ad Hoc Distributed Queries', 1;
+RECONFIGURE;
+
 INSERT INTO OPENROWSET('Microsoft.ACE.OLEDB.12.0',
 'Excel 12.0;Database=C:\YourFile.xlsx;',
 'SELECT * FROM [Sheet1$]')
