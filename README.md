@@ -5,6 +5,16 @@ INSERT INTO OPENROWSET('Microsoft.ACE.OLEDB.12.0',
 'Excel 12.0;Database=C:\YourFile.xlsx;',
 'SELECT * FROM [Sheet1$]')
 SELECT TOP 10 * FROM YourTable;
+
+DECLARE @BCPCommand NVARCHAR(1000)
+SET @BCPCommand = 'bcp "SELECT top 10 * FROM DBNAME.dbo.TABLENAME" queryout "D:\Reports\File.csv" -c -t, -T -S 192.0.0.0'
+EXEC xp_cmdshell @BCPCommand, NO_OUTPUT;
+
+
+DECLARE @BCPCommand NVARCHAR(1000)
+SET @BCPCommand = 'bcp "EXEC DBNAME.dbo.SP_NAME ''1111''" queryout "D:\Reports\File.csv" -c -t, -T -S 192.0.0.0'
+EXEC xp_cmdshell @BCPCommand, NO_OUTPUT;
+
 ```
 
 ## TABLES USED IN SP
