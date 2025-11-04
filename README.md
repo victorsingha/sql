@@ -18,6 +18,17 @@ INSERT INTO OPENROWSET('Microsoft.ACE.OLEDB.12.0',
 SELECT TOP 10 * FROM YourTable;
 ```
 
+## Export Excel
+```powershell
+Install-Module -Name ImportExcel -Force -Scope AllUsers
+```
+```sql
+DECLARE @BCPCommand NVARCHAR(2000);
+SET @BCPCommand = 
+'powershell -Command "Import-Module ImportExcel; $data = Invoke-Sqlcmd -ServerInstance ''192.0.0.0'' -Database ''DBNAME'' -Query ''SET NOCOUNT ON; EXEC DBNAME.dbo.SPME_TEST ''''1111''''''; $data | Export-Excel -Path ''D:\Reports\File.xlsx'' -WorksheetName ''Report'' -AutoSize -BoldTopRow -FreezeTopRow"';
+EXEC xp_cmdshell @BCPCommand;
+```
+
 ## TABLES USED IN SP
 ```sql
 SELECT DISTINCT OBJECT_NAME(referencing_id) AS ProcedureName,o.name AS ReferencedTable,s.name AS SchemaName
