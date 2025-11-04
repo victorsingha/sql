@@ -1,3 +1,12 @@
+## Export Excel
+#### https://www.microsoft.com/en-us/download/details.aspx?id=54920
+```sql
+INSERT INTO OPENROWSET('Microsoft.ACE.OLEDB.12.0',
+'Excel 12.0;Database=C:\YourFile.xlsx;',
+'SELECT * FROM [Sheet1$]')
+SELECT TOP 10 * FROM YourTable;
+```
+
 ## TABLES USED IN SP
 ```sql
 SELECT DISTINCT OBJECT_NAME(referencing_id) AS ProcedureName,o.name AS ReferencedTable,s.name AS SchemaName
