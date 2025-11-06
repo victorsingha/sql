@@ -1,3 +1,6 @@
+## Tiny Url
+#### https://tinyurl.com/api-create.php?url=https://www.google.com/
+
 ## Export CSV
 ```sql
 DECLARE @BCPCommand NVARCHAR(1000)
