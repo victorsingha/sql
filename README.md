@@ -1,5 +1,5 @@
-## Tiny Url
-#### https://tinyurl.com/api-create.php?url=https://www.google.com/
+## tinyurl sample
+[https://tinyurl.com/api-create.php?url=https://www.google.com/](https://tinyurl.com/api-create.php?url=https://www.google.com/)
 
 ## Export CSV
 ```sql
