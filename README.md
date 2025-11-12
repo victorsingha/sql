@@ -17,13 +17,42 @@ EXEC xp_cmdshell @cmd;
 
 ## Export CSV
 ```sql
-DECLARE @BCPCommand NVARCHAR(1000)
-SET @BCPCommand = 'bcp "SELECT top 10 * FROM DBNAME.dbo.TABLENAME" queryout "D:\Reports\File.csv" -c -t, -T -S 192.0.0.0'
-EXEC xp_cmdshell @BCPCommand, NO_OUTPUT;
+CREATE Procedure SP_GenerateCSV --exec SP_GenerateCSV @UserId='1001'
+@UserId varchar(10)=null
+As
+Begin
 
-DECLARE @BCPCommand NVARCHAR(1000)
-SET @BCPCommand = 'bcp "EXEC DBNAME.dbo.SP_NAME ''1111''" queryout "D:\Reports\File.csv" -c -t, -T -S 192.0.0.0'
-EXEC xp_cmdshell @BCPCommand, NO_OUTPUT;
+	Declare @File VARCHAR(255) = 'D:\Reports\Data.csv';
+	Declare @HeaderFile VARCHAR(255) = 'D:\Reports\DataHeader.csv';
+	Declare @Query VARCHAR(max),@Cmd NVARCHAR(MAX);
+	Declare @Server varchar(100)=@@SERVERNAME
+	Declare @DBName varchar(100)=DB_NAME()
+	Declare @Headers varchar(4000)
+
+	SET @Query = 'Exec '+@DBName+'.dbo.SP_TEST @UserId='+@UserId;
+
+
+	SELECT @Headers=STRING_AGG(name, ',') 
+	FROM sys.dm_exec_describe_first_result_set(@Query, NULL, 0);
+
+	SET @Cmd = 'echo ' + @Headers + ' > "' + @HeaderFile + '"';
+    EXEC('EXEC master..xp_cmdshell ''' + @Cmd + ''', NO_OUTPUT');
+
+	SET @Cmd = 'bcp "' + @Query + '" queryout "' + @File + '" -c -t, -r\n -T -S ' + @Server + ' -C 65001';
+	SET @Cmd = REPLACE(@Cmd, CHAR(13), ' ');
+	SET @Cmd = REPLACE(@Cmd, CHAR(10), ' ');
+	SET @Cmd = REPLACE(@Cmd, CHAR(9), ' ');
+    WHILE CHARINDEX('  ', @Cmd) > 0 SET @Cmd = REPLACE(@Cmd, '  ', ' ');
+	EXEC( 'EXEC master..xp_cmdshell ''' + @Cmd + '''' );
+
+
+	SET @Cmd = 'type "' + @File + '" >> "' + @HeaderFile + '"';
+    EXEC('EXEC master..xp_cmdshell ''' + @Cmd + ''', NO_OUTPUT');
+
+	SET @Cmd = 'del "' + @File + '"';
+	EXEC('EXEC master..xp_cmdshell ''' + @Cmd + ''', NO_OUTPUT');
+
+End
 ```
 
 ## Export Excel
