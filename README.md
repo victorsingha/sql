@@ -1,6 +1,20 @@
 ## tinyurl sample
 [https://tinyurl.com/api-create.php?url=https://www.google.com/](https://tinyurl.com/api-create.php?url=https://www.google.com/)
 
+## API CALL
+```sql
+EXEC sp_configure 'show advanced options', 1;
+RECONFIGURE;
+EXEC sp_configure 'Ole Automation Procedures', 1;
+RECONFIGURE;
+EXEC sp_configure 'xp_cmdshell', 1;
+RECONFIGURE;
+
+DECLARE @cmd NVARCHAR(4000);
+SET @cmd = 'powershell -Command "Invoke-RestMethod -Uri ''https://fakestoreapi.com/products'' | ConvertTo-Json -Depth 4"';
+EXEC xp_cmdshell @cmd;
+```
+
 ## Export CSV
 ```sql
 DECLARE @BCPCommand NVARCHAR(1000)
