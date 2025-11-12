@@ -52,6 +52,12 @@ Begin
 	SET @Cmd = 'del "' + @File + '"';
 	EXEC('EXEC master..xp_cmdshell ''' + @Cmd + ''', NO_OUTPUT');
 
+	SET @Cmd = 'powershell -command "Compress-Archive -Path ' + @HeaderFile + ' -DestinationPath ' + @HeaderFile + '.zip -Force"';
+	EXEC('EXEC master..xp_cmdshell ''' + @Cmd + ''', NO_OUTPUT');
+
+	SET @Cmd = 'del "' + @HeaderFile + '"';
+	EXEC('EXEC master..xp_cmdshell ''' + @Cmd + ''', NO_OUTPUT');
+
 End
 ```
 
