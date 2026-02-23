@@ -1,9 +1,7 @@
-- 📘 SQL Utility Documentation
-
-  - [Home](/)
-  - [API Call](api.md)
-  - [Export CSV](csv.md)
-  - [Export Excel](excel.md)
-  - [Table Lock](locks.md)
-  - [Head Blocking](blocking.md)
-  - [Delete Duplicate](duplicates.md)
+- [Home](/)
+- [API Call](api.md)
+- [Export CSV](csv.md)
+- [Export Excel](excel.md)
+- [Table Lock](locks.md)
+- [Head Blocking](blocking.md)
+- [Delete Duplicate](duplicates.md)
