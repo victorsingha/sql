@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SQL Utility Documentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Theme -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+
+  <style>
+    /* Center search bar */
+    .search {
+      max-width: 500px;
+      margin: 20px auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app"></div>
+
+  <script>
+    window.$docsify = {
+      name: 'SQL Utility Documentation',
+      repo: 'https://github.com/victorsingha/sql',
+
+      homepage: 'README.md',
+
+      loadSidebar: true,
+      subMaxLevel: 2,
+
+      search: {
+        placeholder: 'Search SQL utilities...',
+        noData: 'No results found!',
+        depth: 3
+      },
+
+      darklightTheme: {
+        defaultTheme: 'light'
+      }
+    }
+  </script>
+
+  <!-- Docsify Core -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify@4"></script>
+
+  <!-- Search Plugin -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
+
+  <!-- Optional: Dark/Light Toggle -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js"></script>
+
+</body>
+</html>
