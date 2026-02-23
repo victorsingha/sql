@@ -11,7 +11,7 @@
   href="https://cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css">
 
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   
 </head>
 
@@ -32,6 +32,35 @@ body {
 .markdown-section h3 {
   font-weight: 500;
 }
+
+
+  /* Code blocks */
+.markdown-section pre,
+.markdown-section code {
+  font-weight: 400 !important;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+/* Inline code */
+.markdown-section p code,
+.markdown-section li code,
+.markdown-section td code {
+  font-weight: 400 !important;
+}
+
+/* Prevent bold inside highlighted tokens */
+.token,
+.hljs {
+  font-weight: 400 !important;
+}
+
+/* Optional: softer look */
+.markdown-section pre {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+  
 </style>
   
 <body>
