@@ -17,15 +17,18 @@
 <script>
 new Docute({
   target: '#docute',
-
   title: 'SQL Utility Documentation',
 
-  // This loads your GitHub README directly
-  homepage: 'https://raw.githubusercontent.com/victorsingha/sql/main/README.md',
+  // ⚡ IMPORTANT: Use local markdown file
+  homepage: 'README.md',
 
   repo: 'victorsingha/sql',
 
-  darkThemeToggler: true
+  // ✅ Enable search
+  search: {
+    placeholder: 'Search SQL utilities...',
+    noDataText: 'No results found!'
+  }
 })
 </script>
 
