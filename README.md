@@ -1,7 +1,7 @@
-## tinyurl sample
+## tinyurl.com sample
 [https://tinyurl.com/api-create.php?url=https://www.google.com/](https://tinyurl.com/api-create.php?url=https://www.google.com/)
 
-## API CALL
+## API Call using xp_cmdshell
 ```sql
 EXEC sp_configure 'show advanced options', 1;
 RECONFIGURE;
@@ -91,7 +91,7 @@ SET @PowershellCommand='powershell -Command "Import-Module ImportExcel; $data = 
 EXEC xp_cmdshell @PowershellCommand,NO_OUTPUT;
 ```
 
-## TABLES USED IN SP
+## Tables Used In Stored Procedures
 ```sql
 SELECT DISTINCT OBJECT_NAME(referencing_id) AS ProcedureName,o.name AS ReferencedTable,s.name AS SchemaName
 FROM sys.sql_expression_dependencies d
@@ -101,7 +101,7 @@ WHERE OBJECT_NAME(referencing_id) = 'YOUR_SP_NAME'
 AND o.type = 'U'; -- U = User tables
 ```
 
-## TABLES & SIZE
+## Tables & Size
 ```sql
 SELECT 
     s.name AS SchemaName,
@@ -120,12 +120,12 @@ GROUP BY s.name, t.name, p.rows
 ORDER BY TotalSizeMB DESC;
 ```
 
-## EXTRA SPACES
+## Extra Spaces
 ```sql
 Select REPLACE(COLUMN_WITH_EXTRA_SPACES, NCHAR(160), ' ')
 ```
 
-## FUNCTIONS DEPENDS IN SP
+## Functions Dependencies In Stored Procedures
 ```sql
 SELECT
     OBJECT_SCHEMA_NAME(referencing_id) AS 'Schema Name',
@@ -137,7 +137,7 @@ WHERE
     AND referencing_class = 1; -- 1 refers to an object (e.g., a stored procedure)
 ```
 
-## TABLE LOG (JSON SNAPSHOT)
+## Table Log (JSON Snapshot)
 ```sql
 Create table #tblLog(LogId bigint identity(1,1),LogUserId int,LogTransDate Datetime default getdate(),JSONData nvarchar(max))
 Insert into #tblLog(JSONData)
@@ -152,7 +152,7 @@ WITH (
 ```
 
 
-## SQL CURRENT JOBS SPS
+## SQL Current Jobs Stored Procedures
 ```sql
 SELECT 
     j.name AS JobName,
@@ -171,7 +171,7 @@ ORDER BY
     j.name, s.step_id;
 ```
 
-## TABLE DEFINITION
+## Table Definition
 ```sql
 DECLARE @TableName SYSNAME = 'YOUR_TABLE_NAME'; -- Change this
 DECLARE @SchemaName SYSNAME = (SELECT SCHEMA_NAME(schema_id)
@@ -226,7 +226,7 @@ PRINT @SQL;
 PRINT @PK;
 ```
 
-## TABLE TYPE DEFINITION
+## Table Type Definition
 ```sql
 DECLARE @TypeName SYSNAME = 'YOUR_USERDEFINED_TABLE_TYPE'; -- Change this
 DECLARE @SchemaName SYSNAME = (SELECT SCHEMA_NAME(schema_id) 
@@ -265,14 +265,14 @@ SET @SQL = LEFT(@SQL, LEN(@SQL) - 2) + CHAR(13) + ')';
 PRINT @SQL;
 ```
 
-## TABLE TYPE DEPENDENCIES
+## Table Type Dependencies
 ```sql
 SELECT OBJECT_NAME(referencing_id) AS dependent_object
 FROM sys.sql_expression_dependencies
 WHERE referenced_entity_name = 'YOUR_USER_DEFINED_TABLE_TYE';
 ```
 
-## TABLE DEPENDENCIES IN SP
+## Table Dependencies In Stored Procedures
 ```sql
 SELECT DISTINCT p.name AS ProcedureName,o.name AS TableName
 FROM sys.procedures p
@@ -283,7 +283,7 @@ AND o.name = 'TABLE_NAME'
 ORDER BY p.name;
 ```
 
-## TABLE COLUMN DEPENDENCIES IN SP
+## Table Column Dependencies In Stored Procedures
 ```sql
 SELECT DISTINCT ROUTINE_NAME,ROUTINE_TYPE
 FROM INFORMATION_SCHEMA.ROUTINES AS R
@@ -291,7 +291,7 @@ INNER JOIN sys.sql_modules AS M ON R.SPECIFIC_NAME = OBJECT_NAME(M.object_id)
 WHERE M.definition LIKE '%COLUMN_NAME%' 
 AND M.definition LIKE '%TABLE_NAME%'
 ```
-## LAZY QUERY
+## Lazy Query
 
 ```sql
 SELECT req.session_id,req.total_elapsed_time AS duration_ms,req.cpu_time AS cpu_time_ms,
@@ -302,7 +302,7 @@ CROSS APPLY sys.dm_exec_sql_text (req.sql_handle) AS ST
 ORDER BY total_elapsed_time DESC
 ```
 
-## HEAD BLOCKING
+## Head Blockings
 ```sql
 SET NOCOUNT ON
 GO
@@ -338,7 +338,7 @@ GO
 ```
 
 
-## TABLE LOCK
+## Table Locks
 ```sql
 
 SELECT request_session_id,resource_type, resource_associated_entity_id,
@@ -364,17 +364,17 @@ CROSS APPLY sys.dm_exec_sql_text(er.sql_handle) AS st
 WHERE r.resource_type = 'OBJECT' AND er.blocking_session_id IS NOT NULL;
 ```
 
-## ROW NO
+## Row No
 ```sql
 ROW_NUMBER() OVER (PARTITION BY MPC.MemberNo ORDER BY PMA.FromDate desc) Sno
 ```
 
-## TRANSACTIONS
+## Current Transactions
 ```sql
 SELECT session_id,blocking_session_id,wait_type,wait_time,wait_resource,percent_complete,* 
 FROM sys.dm_exec_requests WHERE status = 'running';
 ```
-## MODIFIED SPs & TABLES
+## Modified Stored Procedures & Tables
 ```sql
 SELECT o.name AS ObjectName,SCHEMA_NAME(o.schema_id) AS SchemaName,o.type_desc,o.modify_date
 FROM sys.objects o
@@ -391,7 +391,7 @@ where P.spid > 50 and P.status not in ('background', 'sleeping')
 and P.cmd not in ('AWAITING COMMAND','MIRROR HANDLER','LAZY WRITER','CHECKPOINT SLEEP','RA MANAGER')
 order by batch_duration desc
 ```
-## SQL DETAILS
+## SQL Details
 ```sql
 declare
     @spid int
@@ -422,7 +422,7 @@ SELECT
 FROM ::fn_get_sql(@sql_handle)
 ```
 
-## DELETE DUPLICATE RECORD
+## Delete Duplicate Record
 ```sql
 WITH CTE AS (
     SELECT *,
