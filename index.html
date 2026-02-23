@@ -1,317 +1,124 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SQL Utility Documentation</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SQL Utility Documentation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <style>
+    :root {
+      --ink: #0f0f0f;
+      --paper: #f5f3ee;
+      --accent: #d4500a;
+      --muted: #888;
+      --border: #ddd9d0;
+      --code-bg: #1a1a2e;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: 'Syne', sans-serif; background: var(--paper); color: var(--ink); margin: 0; }
+    code, pre { font-family: 'DM Mono', monospace; }
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    /* Search overlay */
+    #search-overlay { display: none; position: fixed; inset: 0; background: rgba(15,15,15,0.6); backdrop-filter: blur(4px); z-index: 100; align-items: flex-start; justify-content: center; padding-top: 15vh; }
+    #search-overlay.active { display: flex; }
+    #search-box { background: #fff; border: 1.5px solid var(--border); border-radius: 12px; width: 100%; max-width: 560px; overflow: hidden; box-shadow: 0 24px 60px rgba(0,0,0,0.18); }
+    #search-input { width: 100%; padding: 18px 20px; font-size: 16px; font-family: 'Syne', sans-serif; border: none; outline: none; background: transparent; color: var(--ink); border-bottom: 1px solid var(--border); }
+    .search-result { padding: 13px 20px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: background 0.12s; font-size: 14px; }
+    .search-result:hover, .search-result.active-result { background: #f5f3ee; }
+    .search-result .result-icon { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--accent); background: #fdf0ea; padding: 2px 7px; border-radius: 4px; flex-shrink: 0; }
+    #search-empty { padding: 20px; text-align: center; color: var(--muted); font-size: 14px; display: none; }
 
-<style>
-  :root {
-    --ink: #0f0f0f;
-    --paper: #f5f3ee;
-    --accent: #d4500a;
-    --muted: #888;
-    --border: #ddd9d0;
-    --code-bg: #1a1a2e;
-  }
+    /* Layout */
+    .layout { display: grid; grid-template-columns: 1fr 200px; max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+    @media (max-width: 900px) { .layout { grid-template-columns: 1fr; padding: 0 20px; } .toc-col { display: none; } }
 
-  * { box-sizing: border-box; }
+    /* Top bar */
+    .topbar { position: sticky; top: 0; z-index: 50; background: var(--paper); border-bottom: 1px solid var(--border); padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; }
+    .topbar-brand { font-size: 15px; font-weight: 700; letter-spacing: -0.3px; }
+    .topbar-brand span { color: var(--accent); }
+    .search-trigger { display: flex; align-items: center; gap: 10px; padding: 8px 14px; border: 1px solid var(--border); border-radius: 8px; background: white; cursor: pointer; font-size: 13px; font-family: 'DM Mono', monospace; color: var(--muted); transition: border-color 0.15s; }
+    .search-trigger:hover { border-color: #bbb; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .kbd { background: #f0ece5; border: 1px solid #ddd; border-radius: 4px; padding: 1px 6px; font-size: 11px; color: #555; margin-left: 4px; }
 
-  body {
-    font-family: 'Syne', sans-serif;
-    background: var(--paper);
-    color: var(--ink);
-    margin: 0;
-  }
+    /* Content */
+    .content-col { padding: 48px 48px 80px 0; }
+    header.page-header { margin-bottom: 56px; }
+    header.page-header h1 { font-size: 2.6rem; font-weight: 800; letter-spacing: -1px; line-height: 1.1; margin: 0 0 12px; }
+    header.page-header h1 span { color: var(--accent); }
+    header.page-header p { color: var(--muted); font-size: 15px; margin: 0; }
 
-  code, pre, .mono { font-family: 'DM Mono', monospace; }
+    section.doc-section { margin-bottom: 56px; }
+    section.doc-section h2 { font-size: 1.25rem; font-weight: 700; margin: 0 0 14px; display: flex; align-items: center; gap: 10px; }
+    .section-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); background: #fdf0ea; padding: 2px 8px; border-radius: 4px; font-weight: 400; }
 
-  /* Search overlay */
-  #search-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(15,15,15,0.6);
-    backdrop-filter: blur(4px);
-    z-index: 100;
-    align-items: flex-start;
-    justify-content: center;
-    padding-top: 15vh;
-  }
-  #search-overlay.active { display: flex; }
+    .code-block { position: relative; border-radius: 10px; overflow: hidden; border: 1px solid #2a2a3d; }
+    .code-block pre { margin: 0; padding: 20px 24px; overflow-x: auto; font-size: 13px; line-height: 1.65; background: var(--code-bg) !important; }
+    .copy-btn { position: absolute; top: 10px; right: 10px; font-family: 'DM Mono', monospace; font-size: 11px; padding: 4px 10px; border-radius: 5px; border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); cursor: pointer; transition: background 0.15s, color 0.15s; }
+    .copy-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .copy-btn.copied { color: #6ee7b7; border-color: rgba(110,231,183,0.3); }
 
-  #search-box {
-    background: #fff;
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    width: 100%;
-    max-width: 560px;
-    overflow: hidden;
-    box-shadow: 0 24px 60px rgba(0,0,0,0.18);
-  }
+    /* TOC */
+    .toc-col { padding-top: 48px; }
+    .toc-sticky { position: sticky; top: 72px; }
+    .toc-label { font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; font-family: 'DM Mono', monospace; }
+    .toc-link { display: block; font-size: 13px; color: var(--muted); text-decoration: none; padding: 5px 0 5px 12px; border-left: 2px solid var(--border); transition: color 0.15s, border-color 0.15s; line-height: 1.3; }
+    .toc-link:hover { color: var(--ink); border-color: #bbb; }
+    .toc-link.active { color: var(--accent); border-color: var(--accent); font-weight: 600; }
 
-  #search-input {
-    width: 100%;
-    padding: 18px 20px;
-    font-size: 16px;
-    font-family: 'Syne', sans-serif;
-    border: none;
-    outline: none;
-    background: transparent;
-    color: var(--ink);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .search-result {
-    padding: 13px 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    transition: background 0.12s;
-    font-size: 14px;
-  }
-  .search-result:hover, .search-result.active-result {
-    background: #f5f3ee;
-  }
-  .search-result .result-icon {
-    font-size: 11px;
-    font-family: 'DM Mono', monospace;
-    color: var(--accent);
-    background: #fdf0ea;
-    padding: 2px 7px;
-    border-radius: 4px;
-    flex-shrink: 0;
-  }
-  #search-empty {
-    padding: 20px;
-    text-align: center;
-    color: var(--muted);
-    font-size: 14px;
-    display: none;
-  }
-
-  /* Layout */
-  .layout {
-    display: grid;
-    grid-template-columns: 1fr 200px;
-    gap: 0;
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 0 32px;
-  }
-
-  @media (max-width: 900px) {
-    .layout { grid-template-columns: 1fr; padding: 0 20px; }
-    .toc-col { display: none; }
-  }
-
-  /* Top bar */
-  .topbar {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-    background: var(--paper);
-    border-bottom: 1px solid var(--border);
-    padding: 14px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .topbar-brand {
-    font-size: 15px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-  }
-  .topbar-brand span { color: var(--accent); }
-
-  .search-trigger {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 14px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: white;
-    cursor: pointer;
-    font-size: 13px;
-    font-family: 'DM Mono', monospace;
-    color: var(--muted);
-    transition: border-color 0.15s, box-shadow 0.15s;
-  }
-  .search-trigger:hover {
-    border-color: #bbb;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  }
-  .search-trigger .kbd {
-    background: #f0ece5;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 1px 6px;
-    font-size: 11px;
-    color: #555;
-    margin-left: 4px;
-  }
-
-  /* Main content */
-  .content-col { padding: 48px 48px 80px 0; }
-
-  header.page-header { margin-bottom: 56px; }
-  header.page-header h1 {
-    font-size: 2.6rem;
-    font-weight: 800;
-    letter-spacing: -1px;
-    line-height: 1.1;
-    margin: 0 0 12px;
-  }
-  header.page-header h1 span { color: var(--accent); }
-  header.page-header p { color: var(--muted); font-size: 15px; margin: 0; }
-
-  section.doc-section { margin-bottom: 56px; }
-
-  section.doc-section h2 {
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin: 0 0 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  section.doc-section h2 .section-num {
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    color: var(--accent);
-    background: #fdf0ea;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-weight: 400;
-  }
-
-  .code-block {
-    position: relative;
-    border-radius: 10px;
-    overflow: hidden;
-    border: 1px solid #2a2a3d;
-  }
-
-  .code-block pre {
-    margin: 0;
-    padding: 20px 24px 20px 24px;
-    overflow-x: auto;
-    font-size: 13px;
-    line-height: 1.65;
-    background: var(--code-bg) !important;
-  }
-
-  .code-block .copy-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    padding: 4px 10px;
-    border-radius: 5px;
-    border: 1px solid rgba(255,255,255,0.12);
-    background: rgba(255,255,255,0.06);
-    color: rgba(255,255,255,0.5);
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
-  }
-  .code-block .copy-btn:hover {
-    background: rgba(255,255,255,0.12);
-    color: #fff;
-  }
-  .code-block .copy-btn.copied {
-    color: #6ee7b7;
-    border-color: rgba(110,231,183,0.3);
-  }
-
-  /* Right TOC */
-  .toc-col { padding-top: 48px; }
-  .toc-sticky {
-    position: sticky;
-    top: 72px;
-  }
-  .toc-label {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 12px;
-    font-family: 'DM Mono', monospace;
-  }
-  .toc-link {
-    display: block;
-    font-size: 13px;
-    color: var(--muted);
-    text-decoration: none;
-    padding: 5px 0 5px 12px;
-    border-left: 2px solid var(--border);
-    transition: color 0.15s, border-color 0.15s;
-    line-height: 1.3;
-  }
-  .toc-link:hover { color: var(--ink); border-color: #bbb; }
-  .toc-link.active { color: var(--accent); border-color: var(--accent); font-weight: 600; }
-
-  footer {
-    border-top: 1px solid var(--border);
-    padding: 24px 0;
-    font-size: 13px;
-    font-family: 'DM Mono', monospace;
-    color: var(--muted);
-    margin-top: 20px;
-  }
-</style>
+    footer { border-top: 1px solid var(--border); padding: 24px 0; font-size: 13px; font-family: 'DM Mono', monospace; color: var(--muted); margin-top: 20px; }
+  </style>
 </head>
 <body>
 
-<!-- Top Bar -->
-<div class="topbar">
-  <div class="topbar-brand">SQL<span>.</span>Docs</div>
-  <button class="search-trigger" onclick="openSearch()">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    Search docs...
-    <span class="kbd">Ctrl K</span>
-  </button>
-</div>
+  <div class="topbar">
+    <div class="topbar-brand">SQL<span>.</span>Docs</div>
+    <button class="search-trigger" onclick="openSearch()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      Search docs...
+      <span class="kbd">Ctrl K</span>
+    </button>
+  </div>
 
-<!-- Search Overlay -->
-<div id="search-overlay" onclick="handleOverlayClick(event)">
-  <div id="search-box">
-    <input id="search-input" type="text" placeholder="Search documentation..." oninput="filterSearch(this.value)" onkeydown="handleSearchKey(event)" autocomplete="off" />
-    <div id="search-results"></div>
-    <div id="search-empty">No results found</div>
-    <div style="padding:10px 20px; border-top:1px solid var(--border); font-size:11px; font-family:'DM Mono',monospace; color:var(--muted); display:flex; gap:16px;">
-      <span>↑↓ navigate</span><span>↵ go</span><span>esc close</span>
+  <div id="search-overlay" onclick="if(event.target===this)closeSearch()">
+    <div id="search-box">
+      <input id="search-input" type="text" placeholder="Search documentation..." oninput="filterSearch(this.value)" onkeydown="handleSearchKey(event)" autocomplete="off"/>
+      <div id="search-results"></div>
+      <div id="search-empty">No results found</div>
+      <div style="padding:10px 20px;border-top:1px solid var(--border);font-size:11px;font-family:'DM Mono',monospace;color:var(--muted);display:flex;gap:16px;">
+        <span>↑↓ navigate</span><span>↵ go</span><span>esc close</span>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Layout -->
-<div class="layout">
+  <div class="layout">
+    <main class="content-col">
+      <header class="page-header">
+        <h1>SQL Utility<br><span>Documentation</span></h1>
+        <p>Clean reference for SQL Server scripts and utilities.</p>
+      </header>
+      <div id="sections-container"></div>
+      <footer>© 2026 SQL Utility Documentation</footer>
+    </main>
+    <aside class="toc-col">
+      <div class="toc-sticky">
+        <div class="toc-label">On this page</div>
+        <div id="toc-links"></div>
+      </div>
+    </aside>
+  </div>
 
-  <!-- Content -->
-  <main class="content-col">
-
-    <header class="page-header">
-      <h1>SQL Utility<br><span>Documentation</span></h1>
-      <p>Clean reference for SQL Server scripts and utilities.</p>
-    </header>
-
-    <section id="api" class="doc-section">
-      <h2><span class="section-num">01</span> API Call via xp_cmdshell</h2>
-      <div class="code-block">
-        <button class="copy-btn" onclick="copyCode(this)">copy</button>
-        <pre><code class="language-sql">EXEC sp_configure 'show advanced options', 1;
+<script>
+  // ── Data ── Add or remove entries here to update the page
+  const sections = [
+    {
+      id: 'api',
+      title: 'API Call via xp_cmdshell',
+      code: `EXEC sp_configure 'show advanced options', 1;
 RECONFIGURE;
 
 EXEC sp_configure 'xp_cmdshell', 1;
@@ -319,65 +126,50 @@ RECONFIGURE;
 
 DECLARE @cmd NVARCHAR(4000);
 SET @cmd = 'powershell -Command "Invoke-RestMethod -Uri ''https://fakestoreapi.com/products''"';
-EXEC xp_cmdshell @cmd;</code></pre>
-      </div>
-    </section>
-
-    <section id="csv" class="doc-section">
-      <h2><span class="section-num">02</span> Export CSV</h2>
-      <div class="code-block">
-        <button class="copy-btn" onclick="copyCode(this)">copy</button>
-        <pre><code class="language-sql">CREATE PROCEDURE SP_GenerateCSV
+EXEC xp_cmdshell @cmd;`
+    },
+    {
+      id: 'csv',
+      title: 'Export CSV',
+      code: `CREATE PROCEDURE SP_GenerateCSV
   @UserId varchar(10) = null
 AS
 BEGIN
-  DECLARE @File VARCHAR(255) = 'D:\Reports\Data.csv';
-END</code></pre>
-      </div>
-    </section>
-
-    <section id="excel" class="doc-section">
-      <h2><span class="section-num">03</span> Export Excel</h2>
-      <div class="code-block">
-        <button class="copy-btn" onclick="copyCode(this)">copy</button>
-        <pre><code class="language-sql">INSERT INTO OPENROWSET('Microsoft.ACE.OLEDB.12.0',
-  'Excel 12.0;Database=D:\Reports\File.xlsx;',
+  DECLARE @File VARCHAR(255) = 'D:\\Reports\\Data.csv';
+END`
+    },
+    {
+      id: 'excel',
+      title: 'Export Excel',
+      code: `INSERT INTO OPENROWSET('Microsoft.ACE.OLEDB.12.0',
+  'Excel 12.0;Database=D:\\Reports\\File.xlsx;',
   'SELECT Col1,Col2 FROM [Sheet1$]')
-SELECT TOP 10 Col1, Col2 FROM tblData;</code></pre>
-      </div>
-    </section>
-
-    <section id="locks" class="doc-section">
-      <h2><span class="section-num">04</span> Table Lock</h2>
-      <div class="code-block">
-        <button class="copy-btn" onclick="copyCode(this)">copy</button>
-        <pre><code class="language-sql">SELECT request_session_id,
+SELECT TOP 10 Col1, Col2 FROM tblData;`
+    },
+    {
+      id: 'locks',
+      title: 'Table Lock',
+      code: `SELECT request_session_id,
        resource_type,
        request_status
 FROM sys.dm_tran_locks
-WHERE resource_database_id = DB_ID();</code></pre>
-      </div>
-    </section>
-
-    <section id="blocking" class="doc-section">
-      <h2><span class="section-num">05</span> Head Blocking</h2>
-      <div class="code-block">
-        <button class="copy-btn" onclick="copyCode(this)">copy</button>
-        <pre><code class="language-sql">SELECT blocking_session_id,
+WHERE resource_database_id = DB_ID();`
+    },
+    {
+      id: 'blocking',
+      title: 'Head Blocking',
+      code: `SELECT blocking_session_id,
        session_id,
        wait_type,
        wait_time,
        sql_handle
 FROM sys.dm_exec_requests
-WHERE blocking_session_id > 0;</code></pre>
-      </div>
-    </section>
-
-    <section id="duplicates" class="doc-section">
-      <h2><span class="section-num">06</span> Delete Duplicate Records</h2>
-      <div class="code-block">
-        <button class="copy-btn" onclick="copyCode(this)">copy</button>
-        <pre><code class="language-sql">WITH CTE AS (
+WHERE blocking_session_id > 0;`
+    },
+    {
+      id: 'duplicates',
+      title: 'Delete Duplicate Records',
+      code: `WITH CTE AS (
   SELECT *,
          ROW_NUMBER() OVER (
            PARTITION BY COL1, COL2
@@ -385,137 +177,107 @@ WHERE blocking_session_id > 0;</code></pre>
          ) AS rn
   FROM YOUR_TABLE_NAME
 )
-DELETE FROM CTE WHERE rn > 1;</code></pre>
+DELETE FROM CTE WHERE rn > 1;`
+    },
+  ];
+
+  // ── Render ──
+  function escHtml(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  document.getElementById('sections-container').innerHTML = sections.map((s, i) => `
+    <section id="${s.id}" class="doc-section">
+      <h2><span class="section-num">${String(i+1).padStart(2,'0')}</span>${s.title}</h2>
+      <div class="code-block">
+        <button class="copy-btn" onclick="copyCode(this)">copy</button>
+        <pre><code class="language-sql">${escHtml(s.code)}</code></pre>
       </div>
-    </section>
+    </section>`).join('');
 
-    <footer>© 2026 SQL Utility Documentation</footer>
-  </main>
+  document.getElementById('toc-links').innerHTML = sections.map(s =>
+    `<a class="toc-link" href="#${s.id}">${s.title}</a>`
+  ).join('');
 
-  <!-- Right TOC -->
-  <aside class="toc-col">
-    <div class="toc-sticky">
-      <div class="toc-label">On this page</div>
-      <a class="toc-link" href="#api">API Call</a>
-      <a class="toc-link" href="#csv">Export CSV</a>
-      <a class="toc-link" href="#excel">Export Excel</a>
-      <a class="toc-link" href="#locks">Table Lock</a>
-      <a class="toc-link" href="#blocking">Head Blocking</a>
-      <a class="toc-link" href="#duplicates">Delete Duplicate</a>
-    </div>
-  </aside>
+  hljs.highlightAll();
 
-</div>
+  // ── Copy ──
+  function copyCode(btn) {
+    navigator.clipboard.writeText(btn.nextElementSibling.innerText);
+    btn.textContent = 'copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 2000);
+  }
 
-<script>
-hljs.highlightAll();
+  // ── Search ──
+  let activeIdx = 0, filtered = sections;
 
-// ---- Copy code ----
-function copyCode(btn) {
-  const code = btn.nextElementSibling.innerText;
-  navigator.clipboard.writeText(code);
-  btn.textContent = 'copied!';
-  btn.classList.add('copied');
-  setTimeout(() => { btn.textContent = 'copy'; btn.classList.remove('copied'); }, 2000);
-}
+  function openSearch() {
+    filtered = sections; activeIdx = 0;
+    document.getElementById('search-overlay').classList.add('active');
+    document.getElementById('search-input').value = '';
+    renderResults(sections);
+    setTimeout(() => document.getElementById('search-input').focus(), 50);
+  }
 
-// ---- Search ----
-const sections = [
-  { id: 'api',       label: 'API Call via xp_cmdshell' },
-  { id: 'csv',       label: 'Export CSV' },
-  { id: 'excel',     label: 'Export Excel' },
-  { id: 'locks',     label: 'Table Lock' },
-  { id: 'blocking',  label: 'Head Blocking' },
-  { id: 'duplicates',label: 'Delete Duplicate Records' },
-];
+  function closeSearch() {
+    document.getElementById('search-overlay').classList.remove('active');
+  }
 
-let activeIdx = 0;
+  function filterSearch(val) {
+    filtered = val.trim() ? sections.filter(s => s.title.toLowerCase().includes(val.toLowerCase())) : sections;
+    activeIdx = 0;
+    renderResults(filtered);
+    document.getElementById('search-empty').style.display = filtered.length ? 'none' : 'block';
+  }
 
-function openSearch() {
-  document.getElementById('search-overlay').classList.add('active');
-  document.getElementById('search-input').value = '';
-  renderResults(sections);
-  setTimeout(() => document.getElementById('search-input').focus(), 50);
-}
+  function renderResults(list) {
+    document.getElementById('search-results').innerHTML = list.map((s, i) => `
+      <div class="search-result ${i===activeIdx?'active-result':''}" onclick="goTo('${s.id}')">
+        <span class="result-icon">SQL</span>${s.title}
+      </div>`).join('');
+  }
 
-function closeSearch() {
-  document.getElementById('search-overlay').classList.remove('active');
-}
+  function handleSearchKey(e) {
+    const items = document.querySelectorAll('.search-result');
+    if (e.key === 'ArrowDown') { activeIdx = Math.min(activeIdx+1, items.length-1); }
+    else if (e.key === 'ArrowUp') { activeIdx = Math.max(activeIdx-1, 0); }
+    else if (e.key === 'Enter' && items[activeIdx]) { items[activeIdx].click(); return; }
+    else if (e.key === 'Escape') { closeSearch(); return; }
+    items.forEach((r,i) => r.classList.toggle('active-result', i===activeIdx));
+    items[activeIdx]?.scrollIntoView({ block:'nearest' });
+  }
 
-function handleOverlayClick(e) {
-  if (e.target === document.getElementById('search-overlay')) closeSearch();
-}
-
-function filterSearch(val) {
-  const filtered = val.trim()
-    ? sections.filter(s => s.label.toLowerCase().includes(val.toLowerCase()))
-    : sections;
-  activeIdx = 0;
-  renderResults(filtered);
-  document.getElementById('search-empty').style.display = filtered.length ? 'none' : 'block';
-}
-
-function renderResults(list) {
-  const container = document.getElementById('search-results');
-  container.innerHTML = list.map((s, i) => `
-    <div class="search-result ${i === activeIdx ? 'active-result' : ''}"
-         onclick="goTo('${s.id}')"
-         data-id="${s.id}">
-      <span class="result-icon">SQL</span>
-      ${s.label}
-    </div>
-  `).join('');
-}
-
-function handleSearchKey(e) {
-  const results = document.querySelectorAll('.search-result');
-  if (e.key === 'ArrowDown') {
-    activeIdx = Math.min(activeIdx + 1, results.length - 1);
-    updateActive(results);
-  } else if (e.key === 'ArrowUp') {
-    activeIdx = Math.max(activeIdx - 1, 0);
-    updateActive(results);
-  } else if (e.key === 'Enter') {
-    if (results[activeIdx]) results[activeIdx].click();
-  } else if (e.key === 'Escape') {
+  function goTo(id) {
     closeSearch();
+    document.getElementById(id)?.scrollIntoView({ behavior:'smooth', block:'start' });
   }
-}
 
-function updateActive(results) {
-  results.forEach((r, i) => r.classList.toggle('active-result', i === activeIdx));
-  results[activeIdx]?.scrollIntoView({ block: 'nearest' });
-}
-
-function goTo(id) {
-  closeSearch();
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-document.addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-    e.preventDefault();
-    openSearch();
-  }
-  if (e.key === 'Escape') closeSearch();
-});
-
-// ---- Active TOC on scroll ----
-const tocLinks = document.querySelectorAll('.toc-link');
-const docSections = document.querySelectorAll('.doc-section');
-
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      tocLinks.forEach(l => l.classList.remove('active'));
-      const active = document.querySelector(`.toc-link[href="#${entry.target.id}"]`);
-      if (active) active.classList.add('active');
-    }
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey||e.metaKey) && e.key==='k') { e.preventDefault(); openSearch(); }
+    if (e.key==='Escape') closeSearch();
   });
-}, { rootMargin: '-20% 0px -70% 0px' });
 
-docSections.forEach(s => observer.observe(s));
+  // ── Active TOC ──
+  const tocLinks = document.querySelectorAll('.toc-link');
+  new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        tocLinks.forEach(l => l.classList.remove('active'));
+        document.querySelector(`.toc-link[href="#${entry.target.id}"]`)?.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' }).observe
+  && document.querySelectorAll('.doc-section').forEach(s =>
+    new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          tocLinks.forEach(l => l.classList.remove('active'));
+          document.querySelector(`.toc-link[href="#${e.target.id}"]`)?.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' }).observe(s)
+  );
 </script>
-
 </body>
 </html>
