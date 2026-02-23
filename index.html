@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL Utility Documentation</title>
+
+<!-- Highlight.js -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    background: #f5f7fa;
+}
+.sidebar {
+    width: 260px;
+    background: #111827;
+    color: white;
+    height: 100vh;
+    overflow-y: auto;
+    padding: 20px;
+    position: fixed;
+}
+.sidebar h2 {
+    color: #60a5fa;
+}
+.sidebar a {
+    display: block;
+    color: #d1d5db;
+    padding: 8px 0;
+    text-decoration: none;
+    font-size: 14px;
+}
+.sidebar a:hover {
+    color: #60a5fa;
+}
+.content {
+    margin-left: 280px;
+    padding: 40px;
+    width: 100%;
+}
+section {
+    margin-bottom: 60px;
+}
+h1 {
+    color: #111827;
+}
+pre {
+    position: relative;
+}
+.copy-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.search {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    border: none;
+}
+@media (max-width: 900px) {
+    .sidebar { display: none; }
+    .content { margin-left: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>SQL Docs</h2>
+    <input type="text" class="search" placeholder="Search..." onkeyup="searchDocs(this.value)">
+    <a href="#api">API Call</a>
+    <a href="#csv">Export CSV</a>
+    <a href="#excel">Export Excel</a>
+    <a href="#tables">Tables Used in SP</a>
+    <a href="#size">Table Size</a>
+    <a href="#locks">Table Lock</a>
+    <a href="#blocking">Head Blocking</a>
+    <a href="#transactions">Transactions</a>
+    <a href="#duplicates">Delete Duplicate</a>
+</div>
+
+<div class="content">
+
+<h1>SQL Utility Documentation</h1>
+<p>Comprehensive SQL Server utility queries and automation scripts.</p>
+
+<section id="api">
+<h2>API Call using xp_cmdshell</h2>
+<pre><button class="copy-btn">Copy</button><code class="language-sql">
+EXEC sp_configure 'show advanced options', 1;
+RECONFIGURE;
+EXEC sp_configure 'Ole Automation Procedures', 1;
+RECONFIGURE;
+EXEC sp_configure 'xp_cmdshell', 1;
+RECONFIGURE;
+
+DECLARE @cmd NVARCHAR(4000);
+SET @cmd = 'powershell -Command "Invoke-RestMethod -Uri ''https://fakestoreapi.com/products'' | ConvertTo-Json -Depth 4"';
+EXEC xp_cmdshell @cmd;
+</code></pre>
+</section>
+
+<section id="csv">
+<h2>Export CSV with Header + ZIP</h2>
+<pre><button class="copy-btn">Copy</button><code class="language-sql">
+CREATE Procedure SP_GenerateCSV
+@UserId varchar(10)=null
+As
+Begin
+    -- CSV generation logic
+End
+</code></pre>
+</section>
+
+<section id="excel">
+<h2>Export Excel using OPENROWSET</h2>
+<pre><button class="copy-btn">Copy</button><code class="language-sql">
+INSERT INTO OPENROWSET('Microsoft.ACE.OLEDB.12.0',
+'Excel 12.0;Database=D:\Reports\File.xlsx;',
+'SELECT QuotationNo,QuotationType FROM [Sheet1$]')
+Select top 10 QuotationNo,QuotationType from tblQuotaMaster
+</code></pre>
+</section>
+
+<section id="tables">
+<h2>Tables Used in Stored Procedure</h2>
+<pre><button class="copy-btn">Copy</button><code class="language-sql">
+SELECT DISTINCT OBJECT_NAME(referencing_id) AS ProcedureName
+FROM sys.sql_expression_dependencies
+</code></pre>
+</section>
+
+<section id="size">
+<h2>Table Size Details</h2>
+<pre><button class="copy-btn">Copy</button><code class="language-sql">
+SELECT 
+    s.name AS SchemaName,
+    t.name AS TableName,
+    p.rows AS RowCounts
+FROM sys.tables t
+</code></pre>
+</section>
+
+<section id="locks">
+<h2>Table Lock Info</h2>
+<pre><button class="copy-btn">Copy</button><code class="language-sql">
+SELECT request_session_id,resource_type
+FROM sys.dm_tran_locks
+</code></pre>
+</section>
+
+<section id="blocking">
+<h2>Head Blocking Tree</h2>
+<pre><button class="copy-btn">Copy</button><code class="language-sql">
+SET NOCOUNT ON
+SELECT SPID, BLOCKED
+FROM sys.sysprocesses
+</code></pre>
+</section>
+
+<section id="transactions">
+<h2>Running Transactions</h2>
+<pre><button class="copy-btn">Copy</button><code class="language-sql">
+SELECT session_id,blocking_session_id
+FROM sys.dm_exec_requests
+</code></pre>
+</section>
+
+<section id="duplicates">
+<h2>Delete Duplicate Records</h2>
+<pre><button class="copy-btn">Copy</button><code class="language-sql">
+WITH CTE AS (
+    SELECT *,
+           ROW_NUMBER() OVER (PARTITION BY COL1, COL2 ORDER BY (SELECT NULL)) AS rn
+    FROM YOUR_TABLE_NAME
+)
+DELETE FROM CTE WHERE rn > 1;
+</code></pre>
+</section>
+
+</div>
+
+<script>
+hljs.highlightAll();
+
+document.querySelectorAll(".copy-btn").forEach(btn => {
+    btn.addEventListener("click", function() {
+        const code = this.nextElementSibling.innerText;
+        navigator.clipboard.writeText(code);
+        this.innerText = "Copied!";
+        setTimeout(() => this.innerText = "Copy", 2000);
+    });
+});
+
+function searchDocs(value) {
+    value = value.toLowerCase();
+    document.querySelectorAll("section").forEach(sec => {
+        sec.style.display = sec.innerText.toLowerCase().includes(value) ? "block" : "none";
+    });
+}
+</script>
+
+</body>
+</html>
