@@ -347,6 +347,11 @@ resource_description, o.object_id, o.name, o.type_desc
 FROM sys.dm_tran_locks l with(nolock), sys.objects o with(nolock)
 WHERE l.resource_associated_entity_id = o.object_id and resource_database_id = DB_ID()
 
+SELECT r.session_id,r.status,r.command,r.cpu_time,r.total_elapsed_time,r.blocking_session_id,t.text AS query_text
+FROM sys.dm_exec_requests r
+CROSS APPLY sys.dm_exec_sql_text(r.sql_handle) t
+WHERE r.session_id = REQUEST_SESSION_ID;
+
 SELECT request_session_id, * FROM sys.dm_tran_locks
 WHERE resource_database_id = DB_ID()
 AND resource_associated_entity_id = OBJECT_ID(N'dbo.TABLE_NAME');
