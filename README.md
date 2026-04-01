@@ -440,7 +440,7 @@ WHERE rn = 2;
 ```
 
 ## Largest Tables List
-```
+```sql
 SELECT t.NAME AS TableName,s.Name AS SchemaName,p.rows AS RowCounts,
 CAST(ROUND(SUM(a.total_pages) * 8 / 1024.00, 2) AS DECIMAL(18,2)) AS TotalSpaceMB,
 CAST(ROUND(SUM(a.used_pages) * 8 / 1024.00, 2) AS DECIMAL(18,2)) AS UsedSpaceMB,
