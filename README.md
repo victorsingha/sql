@@ -1,5 +1,5 @@
-## Short URL
-[https://tinyurl.com/api-create.php?url=https://www.google.com/](https://tinyurl.com/api-create.php?url=https://www.google.com/)
+## [Short URL 🔗](https://tinyurl.com/api-create.php?url=https://www.google.com/)
+## [SQL FORMATTER 🗿](https://www.red-gate.com/website/sql-formatter/)
 
 ## Current Running Query
 ```sql
