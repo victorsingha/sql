@@ -1,5 +1,14 @@
-## tinyurl.com sample
+## Short URL
 [https://tinyurl.com/api-create.php?url=https://www.google.com/](https://tinyurl.com/api-create.php?url=https://www.google.com/)
+
+## Current Running Query
+```sql
+SELECT r.session_id, s.login_name, s.host_name, s.program_name, DB_NAME(r.database_id) AS DatabaseName,
+OBJECT_NAME(st.objectid, st.dbid) AS ProcName, st.text AS SqlText, r.command, r.status, r.cpu_time, r.total_elapsed_time, r.wait_type
+FROM sys.dm_exec_requests r
+JOIN sys.dm_exec_sessions s ON r.session_id=s.session_id
+CROSS APPLY sys.dm_exec_sql_text(r.sql_handle) st
+```
 
 ## Missing Index
 ```sql
