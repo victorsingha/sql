@@ -1,4 +1,15 @@
-## [Short URL 🔗](https://tinyurl.com/api-create.php?url=https://www.google.com/)  [Sql Formatter 🗿](https://www.red-gate.com/website/sql-formatter/)
+# SQL Server Utility Cheat Sheet
+
+## SQL Formatter 🗿
+```url
+https://www.red-gate.com/website/sql-formatter/
+```
+
+## Short URL API 🔗
+```url
+https://tinyurl.com/api-create.php?url=https://www.google.com/
+```
+
 
 ## Current Running Query
 ```sql
